@@ -1,3 +1,6 @@
+"use client";
+
+import { useCategoryStore } from "@/app/store/category";
 import { CATEGORIES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -7,19 +10,19 @@ type Props = {
   className?: string;
 };
 
-const activeIndex = 0;
-
 export const Categories: React.FC<Props> = ({ className }) => {
+  const activeCategoryId = useCategoryStore((state) => state.activeId);
+
   return (
     <div className={cn("inline-flex gap-1 rounded-2xl bg-gray-50 p-1", className)}>
-      {CATEGORIES.map((name, i) => (
+      {CATEGORIES.map(({ id, name }) => (
         <Link
           key={name}
           className={cn(
             "flex h-11 items-center rounded-2xl px-5 font-bold",
-            activeIndex === i && "bg-white text-primary shadow-md shadow-gray-200"
+            activeCategoryId === id && "bg-white text-primary shadow-md shadow-gray-200"
           )}
-          href=''
+          href={`#${name}`}
         >
           {name}
         </Link>
